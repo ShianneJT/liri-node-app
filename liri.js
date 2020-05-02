@@ -9,6 +9,8 @@ var moment = require('moment');
 
 // concert-this
 
+// Testing code to handle more than one word =P 
+
 var category = process.argv[2];
 var choiceRaw = process.argv.splice(3, process.argv.length-1);
 var choice = choiceRaw.join(' ');
@@ -29,24 +31,11 @@ if (category === 'concert-this') {
         )
 }
 
-
-
-
-
-
-
 /* 
 
 var category = process.argv[2]
 var choice = process.argv[3];
 console.log(category, choice); 
-
-
-
-
-
-
-
 
 
 var queryURL = 'https://rest.bandsintown.com/artists/' + choice + '/events?app_id=codingbootcamp'
