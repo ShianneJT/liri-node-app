@@ -3,13 +3,36 @@ require('dotenv').config();
 var keys = require('./keys.js');
 var axios = require('axios');
 var moment = require('moment');
+var Spotify = require('node-spotify-api');
 
-// var spotify = new Spotify(keys.spotify);
+var category = process.argv[2];
+var choice = process.argv.slice(3).join(" ");
+
+var spotify = new Spotify(keys.spotify);
+
+// song name
+
+if (category === 'spotify-this-song') {
+    spotify.search ({ type: 'track', query: choice, limit: 1 },
+    function(err, data) {
+        if (err) {
+            return console.log('Error occurred: ' + err);
+        }
+
+        console.log("Artists: " + data.tracks.items[0].album.artists[0].name)
+        // A preview link of the song from Spotify
+        console.log("Preview Link: ", data.tracks.items[0].preview_url)
+        // The album that the song is from
+        console.log("Album Name: ", data.tracks.items[0].album.name)
+    })
+}
 
 
 // concert-this
 
 // Testing code to handle more than one word =P 
+
+/*
 
 var category = process.argv[2];
 var choiceRaw = process.argv.splice(3, process.argv.length-1);
@@ -30,6 +53,8 @@ if (category === 'concert-this') {
         }
         )
 }
+
+*/
 
 /* 
 
