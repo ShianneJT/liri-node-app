@@ -1,24 +1,17 @@
 require('dotenv').config();
 
-var keys = require('./keys.js');
+var fs = require('fs');
 var axios = require('axios');
 var moment = require('moment');
 var Spotify = require('node-spotify-api');
+var keys = require('./keys');
 var spotify = new Spotify(keys.spotify);
+
+var bandsID = keys.bandsID.id;
+var omdbKey = keys.omdbKey.key;
+
 var category = process.argv[2];
 var choice = process.argv.slice(3).join(" ");
-
-
-// Make it so liri.js can take in one of the following commands:
-// 
-// concert-this
-// 
-// spotify-this-song
-// 
-// movie-this
-// 
-// do-what-it-says
-
 
 switch(category) {
     case 'concert-this':
@@ -33,13 +26,19 @@ switch(category) {
     case 'do-what-it-says':
         doThis();
     default:
-        //
+        fs.readFile('ascii/intro.txt', 'utf8', function(err,data){
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(data);
+            }
+        });
 }
 
-// Concert this function
+// concert-this
 
-function concertThis(choice) {
-    var queryURL = 'https://rest.bandsintown.com/artists/' + choice + '/events?app_id=codingbootcamp'
+function concertThis() {
+    var queryURL = 'https://rest.bandsintown.com/artists/' + choice + '/events?app_id=' + bandsID;
     axios.get(queryURL)
         .then(function(response) {
             var concertDate = response.data[0].datetime; 
@@ -51,9 +50,9 @@ function concertThis(choice) {
     });
 };
 
-// Spotify this function
+// spotify-this-song
 
-function spotifyThis(choice) {
+function spotifyThis() {
     spotify
         .search({ type: 'track', query: choice, limit: 1 },
         function(err, data) {
@@ -69,24 +68,35 @@ function spotifyThis(choice) {
         })
 };
 
-// Movie this function
+// movie-this
 
-function movieThis(choice){
-    var queryURL = 'https://www.omdbapi.com/?t=' + choice + '&apikey=trilogy';
+function movieThis(){
+    var queryURL = 'https://www.omdbapi.com/?t=' + choice + '&apikey=' + omdbKey;
     axios.get(queryURL)
     .then(function(response) {
         var movieInfo = response.data;
-        console.log('Title: ' + movieInfo.title);
-        console.log('Released: ' + movieInfo.released);
-        console.log('IMDB Rating: ' + movieInfo.ratings[0].value);
-        console.log('Rotten Tomatoes Rating: ' + movieInfo.ratings[1].value);
-        console.log('County of Origin: ' + movieInfo.country);
-        console.log('Language: ' + movieInfo.language);
-        console.log('Plot: ' + movieInfo.plot);
-        console.log('Actors: ' + movieInfo.actors);
+        console.log('Title: ' + movieInfo.Title);
+        console.log('Released: ' + movieInfo.Released);
+        console.log('IMDB Rating: ' + movieInfo.Ratings[0].Value);
+        console.log('Rotten Tomatoes Rating: ' + movieInfo.Ratings[1].Value);
+        console.log('County of Origin: ' + movieInfo.Country);
+        console.log('Language: ' + movieInfo.Language);
+        console.log('Plot: ' + movieInfo.Plot);
+        console.log('Actors: ' + movieInfo.Actors);
     });
 };
 
-function doThis() {
+// do-what-it-says
 
+function doThis() {
+    fs.readFile('random.txt', 'utf8', function(err,data){
+        if (err) {
+            console.log(err);
+        } else {
+            random = data.split(',');
+            choice = random[1];
+            console.log("We're no strangers to love...\n");
+           spotifyThis(choice)
+        }
+    });
 };
