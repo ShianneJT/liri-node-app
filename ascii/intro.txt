@@ -1,3 +1,4 @@
+
     @-------------------------------------------------@
     |     __     ____ ____   ____   ____          __  |
     |    / /    /  _// __ \ /  _/  / __ ) ____   / /_ |
@@ -9,12 +10,15 @@
 
     -------------  Welcome to LIRI Bot  ---------------
 
-    Search for upcoming concerts, and information on your favorite songs and movies.
-    To begin, type one of the following commands:
+    Search for upcoming concerts, and information
+    on your favorite songs and movies.
+
+    To begin, type 'node liri', followed by one of
+    these commands:
 
         o concert-this <artist or band name>
         o spotify-this-song <song title>
         o movie-this <movie title>
         o do-what-it-says
 
-        o Example: node liri concert-this ok go
+        * Example: node liri concert-this ok go

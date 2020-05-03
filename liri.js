@@ -15,16 +15,21 @@ var choice = process.argv.slice(3).join(" ");
 
 switch(category) {
     case 'concert-this':
-        concertThis(choice);
+        logo();
+        concertThis();
         break;
     case 'spotify-this-song':
-        spotifyThis(choice);
+        logo();
+        spotifyThis();
         break;
     case 'movie-this':
-        movieThis(choice)
+        logo();
+        movieThis()
         break;
     case 'do-what-it-says':
+        logo();
         doThis();
+        break;
     default:
         fs.readFile('ascii/intro.txt', 'utf8', function(err,data){
             if (err) {
@@ -36,58 +41,68 @@ switch(category) {
 }
 
 // concert-this
-
 function concertThis() {
     var queryURL = 'https://rest.bandsintown.com/artists/' + choice + '/events?app_id=' + bandsID;
     axios.get(queryURL)
         .then(function(response) {
-            var concertDate = response.data[0].datetime; 
+            var results = response.data[0]
+            var concertDate = results.datetime; 
             var convertedDate = moment(concertDate).format('MM/DD/YYYY');
-            console.log('----- ' + response.data[0].artist.name + ' -----')
-            console.log('Name of venue: ' + response.data[0].venue.name);
-            console.log('Venue Location: ' + response.data[0].venue.location);
-            console.log('Event Date: ' + convertedDate);
+
+            console.log('\n    ---------------------------------------------------\n')
+            console.log('     Artist:         ' + results.artist.name);
+            console.log('     Name of venue:  ' + response.data[0].venue.name);
+            console.log('     Venue Location: ' + response.data[0].venue.location);
+            console.log('     Event Date:     ' + convertedDate);
+            console.log('\n    ---------------------------------------------------')
+            console.log("\n   Type 'node liri' to return to the menu");
+    })
+    .catch(error => {
+        console.log('    ' + error);
     });
 };
 
 // spotify-this-song
-
 function spotifyThis() {
     spotify
         .search({ type: 'track', query: choice, limit: 1 },
         function(err, data) {
             if (err) {
                 console.log('Error: ' + err);
-                returnl
+                return
             } else {
-                console.log('----- ' + data.tracks.items[0].artists[0].name + ' -----');
-                console.log('Song Title: ' + data.tracks.items[0].name);
-                console.log('Preview Link: ' + data.tracks.items[0].preview_url);
-                console.log('Album Name: ' + data.tracks.items[0].album.name);
+                console.log('\n     -----------------------------------------------\n')
+                console.log('      Artist:        ' + data.tracks.items[0].artists[0].name);
+                console.log('      Song Title:    ' + data.tracks.items[0].name);
+                console.log('      Album Name:    ' + data.tracks.items[0].album.name);
+                console.log('      Preview Link:  ' + data.tracks.items[0].preview_url);
+                console.log('\n     -----------------------------------------------')
+                console.log("\n   Type 'node liri' to return to the menu");
             }
         })
 };
 
 // movie-this
-
 function movieThis(){
     var queryURL = 'https://www.omdbapi.com/?t=' + choice + '&apikey=' + omdbKey;
     axios.get(queryURL)
     .then(function(response) {
         var movieInfo = response.data;
-        console.log('Title: ' + movieInfo.Title);
-        console.log('Released: ' + movieInfo.Released);
-        console.log('IMDB Rating: ' + movieInfo.Ratings[0].Value);
-        console.log('Rotten Tomatoes Rating: ' + movieInfo.Ratings[1].Value);
-        console.log('County of Origin: ' + movieInfo.Country);
-        console.log('Language: ' + movieInfo.Language);
-        console.log('Plot: ' + movieInfo.Plot);
-        console.log('Actors: ' + movieInfo.Actors);
+        console.log('\n     -----------------------------------\n')
+        console.log('      Title: ' + movieInfo.Title); 
+        console.log('      Released: ' + movieInfo.Released);
+        console.log('      IMDB Rating: ' + movieInfo.Ratings[0].Value);
+        console.log('      Rotten Tomatoes Rating: ' + movieInfo.Ratings[1].Value);
+        console.log('      County of Origin: ' + movieInfo.Country);
+        console.log('      Language: ' + movieInfo.Language);
+        console.log('      Plot: ' + movieInfo.Plot);
+        console.log('      Actors: ' + movieInfo.Actors);
+        console.log('\n     -----------------------------------')
+        console.log("\n   Type 'node liri' to return to the menu");
     });
 };
 
 // do-what-it-says
-
 function doThis() {
     fs.readFile('random.txt', 'utf8', function(err,data){
         if (err) {
@@ -95,8 +110,34 @@ function doThis() {
         } else {
             random = data.split(',');
             choice = random[1];
-            console.log("We're no strangers to love...\n");
            spotifyThis(choice)
         }
     });
 };
+
+function logo(){
+    fs.readFile('ascii/' + category + '.txt', 'utf8', function(err,data){
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(data)
+        }
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
