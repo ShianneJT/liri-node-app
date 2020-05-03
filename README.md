@@ -6,12 +6,12 @@
 
 **LIRI Bot** can be used to search for upcoming **concerts** for your favorite artist/band, as well as information on **songs** and **movies**.
 
-## Setup
+### Setup
 
 - **Node.js** is required
   
 1. Clone the **liri-node-app** to your computer.
-2. Run the following command prompt in *LIRI Bot's** root folder:  
+2. Run the following command prompt in **LIRI Bot's** root folder:  
 ``` npm install ```
 
 ### Using LIRI Bot
@@ -30,4 +30,4 @@ To begin, simply type ``` node liri ``` in the command prompt
 
 #### Examples
 
-``` concert-this <artist or band name> ```
+WIP
