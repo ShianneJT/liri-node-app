@@ -4,7 +4,7 @@
 
 ## Summary
 
-**LIRI Bot** can be used to search for upcoming **concerts** for your favorite artist/band, as well as information on **songs** and **movies**.
+**LIRI Bot** can be used to search for upcoming **concerts** for your favorite artist/band, as well as information on **songs** and **movies**. All your results are stored into the log.txt file.
 
 ![LIRI Bot Interface](https://shiannejt.github.io/liri-node-app/images/01.PNG)
 
