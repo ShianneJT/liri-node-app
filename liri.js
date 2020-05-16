@@ -48,13 +48,13 @@ function concertThis() {
             var concertDate = results.datetime;
             var convertedDate = moment(concertDate).format('MM/DD/YYYY');
 
-            writeLog('\n    ---------------------------------------------------\n');
-            writeLog('     Artist:         ' + results.artist.name);
-            writeLog('     Name of venue:  ' + response.data[0].venue.name);
-            writeLog('     Venue Location: ' + response.data[0].venue.location);
-            writeLog('     Event Date:     ' + convertedDate);
-            writeLog('\n    ---------------------------------------------------');
-            writeLog("\n   Type 'node liri' to return to the menu");
+            console.log('\n    ---------------------------------------------------\n');
+            console.log('     Artist:         ' + results.artist.name);
+            console.log('     Name of venue:  ' + response.data[0].venue.name);
+            console.log('     Venue Location: ' + response.data[0].venue.location);
+            console.log('     Event Date:     ' + convertedDate);
+            console.log('\n    ---------------------------------------------------');
+            console.log("\n   Type 'node liri' to return to the menu");
         })
         .catch(error => {
             console.log('ERRRRRROR' + error);
